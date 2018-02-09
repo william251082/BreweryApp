@@ -39,6 +39,7 @@ class AdminController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 //            $this->addFlash('success', $var);
+            var_dump('$form');
             die('Form Submitted');
         }
         return $this->render('admin/index.html.twig',
