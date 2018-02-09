@@ -1,0 +1,27 @@
+AppBundle\Entity\Breweries:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\BreweriesRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        address:
+            type: string
+            length: '100'
+        city:
+            type: string
+            length: '50'
+        name:
+            type: string
+            length: '100'
+        open:
+            type: string
+            length: 255
+        zipcode:
+            type: string
+            length: '6'
+    lifecycleCallbacks: {  }

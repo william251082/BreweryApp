@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Beer Brewery Locator{% endblock %}</title>
+    {% block stylesheets %}
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+              integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+              crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+              integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+              crossorigin="anonymous">
+
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ asset('css/foundation.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('pickadate/lib/themes/default.css') }}">
+        <link rel="stylesheet" href="{{ asset('pickadate/lib/themes/default.date.css') }}">
+    {% endblock %}
+</head>
+<body>
+
+<!-- Start Top Bar -->
+<div class="top-bar">
+    <div class="row">
+        <div class="top-bar-left">
+            <ul class="dropdown menu" data-dropdown-menu>
+                <li><a href="{{ path("home") }}">Home</a></li>
+                <li><a href="{{ path("index_breweries") }}">Breweries</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Top Bar -->
+
+<br>
+
+{% block body %}{% endblock %}
+
+
+<div class="row column">
+    <hr>
+    <ul class="menu">
+        <li class="float-right">Copyright 2018</li>
+    </ul>
+</div>
+
+</body>
+</html>
+
