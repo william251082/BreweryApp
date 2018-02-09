@@ -23,9 +23,70 @@ The Symfony Standard Edition is configured with the following defaults:
 
   * Annotations enabled for everything.
 
-Setup installation:
+## Installation
 
-Clone the my [repo] on github
+You need to have Apache 2.4 HTTP server, PHP v.5.6 or later plus `gd` and `mbstring` PHP extensions.
+
+Install composer globally on your local machine.
+
+Download the sample to some directory (it can be your home dir or `/var/www/html`) and run Composer as follows:
+
+```
+composer install
+```
+
+To update the needed dependencies, run:
+
+```
+composer update
+
+```
+
+Then create an Apache virtual host. It should look like below:
+
+```
+<VirtualHost *:80>
+    DocumentRoot /path/to/formdemo/web
+    
+	<Directory /path/to/formdemo/web/>
+        DirectoryIndex index.php
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+</VirtualHost>
+```
+
+# DATA
+
+Open mysql:
+
+```
+mysql -u root -p
+
+```
+Create a database named 'breweryapp'.
+ 
+```
+CREATE DATABASE breweryapp;
+
+```
+ 
+Got to the project directory then import the breweryapp/breweries.sql file
+
+```
+mysql -u root -p breweryapp < yourpath/breweryapp/breweries.sql
+```
+
+Run this command:
+
+```
+php bin/console doctrine:schema:update --force
+```
+
+Now you should be able to see the Brewery App website by visiting the link "http://localhost/". 
+
+
 
 Enjoy!
 
@@ -38,3 +99,4 @@ Enjoy!
 [11]: https://symfony.com/doc/3.2/logging.html
 [12]: https://symfony.com/doc/3.2/assetic/asset_management.html
 [13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
+[14]: https://github.com/william251082/BreweryApp.git
