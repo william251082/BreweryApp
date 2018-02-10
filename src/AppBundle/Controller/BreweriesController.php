@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Breweries;
 
+
 class BreweriesController extends Controller
 {
     /**
@@ -27,6 +28,18 @@ class BreweriesController extends Controller
                     ->findAll();
         $data['breweries'] = $breweries;
          return $this->render("breweries/index.html.twig", $data);
+
+    }
+
+    /**
+     * @Route("/lajos")
+     *
+     **/
+    public function lajos()
+    {
+        $breweries = new \GuzzleHttp\Client();
+        $res = $breweries->request('GET', 'https://static.lajos.nl/interview_assignment/brouwerijen.js');
+        return new Response('<pre>' . $res->getBody());
 
     }
 

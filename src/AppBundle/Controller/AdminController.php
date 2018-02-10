@@ -19,18 +19,30 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Regex;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+
+
 
 class AdminController extends Controller
 {
+
     /**
      * @Route("/", name="home")
+     *
      **/
-    public function showIndex(Request $request)
+    public function zipcodeIndex(Request $request)
     {
+        //$zipcode = new zipcode();
 
         $form = $this->createFormBuilder()
             ->setMethod('GET')
-            ->add('search', TextType::class, [
+            ->add('zipcode', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
                     new Length(['min' => 6]),
@@ -42,10 +54,13 @@ class AdminController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//            $this->addFlash('success', $var);
-            //var_dump($form);
-            die('Form Submitted');
+//            $zipcode = $form->getData();
+//            var_dump($request);
+//            die('Form Submitted');
+            return $this->redirectToRoute('home');
         }
+
+
         return $this->render('admin/index.html.twig',
             [
                 'form' => $form->createView()
@@ -54,29 +69,26 @@ class AdminController extends Controller
 
     }
 
-//    public function search(Request $request, Breweries $posts): Response
-//    {
-//        if (!$request->isXmlHttpRequest()) {
-//            return $this->render('admin/index.html.twig');
-//        }
-//
-//        $query = $request->query->get('q', '');
-//        $limit = $request->query->get('l', 10);
-//        $foundPosts = $posts->findBySearchQuery($query, $limit);
-//
-//        $results = [];
-//        foreach ($foundPosts as $post) {
-//            $results[] = [
-//                'title' => htmlspecialchars($post->getTitle(), ENT_COMPAT | ENT_HTML5),
-//                'date' => $post->getPublishedAt()->format('M d, Y'),
-//                'author' => htmlspecialchars($post->getAuthor()->getFullName(), ENT_COMPAT | ENT_HTML5),
-//                'summary' => htmlspecialchars($post->getSummary(), ENT_COMPAT | ENT_HTML5),
-//                'url' => $this->generateUrl('blog_post', ['slug' => $post->getSlug()]),
-//            ];
-//        }
-//
-//        return $this->json($results);
-//    }
+    /**
+     * @Route("/zipcode", name="zipcode")
+     *
+     **/
+    public function zipcodeAction(Request $request, $breweries_id)
+    {
+        $zipcode = $this->getDoctrine()
+            ->getRepository(Breweries::class)
+            ->find($breweries_id);
 
+        if (!$zipcode) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$breweries_id
+            );
+        }
+
+        return new Response('Check out this great product: '.$zipcode->getName());
+
+
+
+    }
 
 }
