@@ -39,19 +39,14 @@ class BreweriesController extends Controller
         $breweries = new \GuzzleHttp\Client();
         $res = $breweries->request(
             'GET',
-            'https://static.lajos.nl/interview_assignment/brouwerijen.js',
-            [
-                'query' => [
-                    'userId' => 1
-                ]
-            ]
+            'https://static.lajos.nl/interview_assignment/brouwerijen.js'
         );
-        var_dump($res);
+//        var_dump($res);
 //        echo $res->getStatusCode();
-        $body = $res->getBody();
-        $string = $body->getContents();
+//        $body = $res->getBody();
+//        $string = $body->getContents();
 
-//        return new Response('<pre>' . $res->getBody());
+        return new Response('<pre>' . $res->getBody());
 
     }
 
