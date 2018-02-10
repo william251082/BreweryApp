@@ -172,4 +172,5 @@ class Breweries
     {
         return $this->getName();
     }
+
 }

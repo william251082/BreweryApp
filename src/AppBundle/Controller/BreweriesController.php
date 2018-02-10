@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Breweries;
 
-
 class BreweriesController extends Controller
 {
     /**
@@ -38,8 +37,21 @@ class BreweriesController extends Controller
     public function lajos()
     {
         $breweries = new \GuzzleHttp\Client();
-        $res = $breweries->request('GET', 'https://static.lajos.nl/interview_assignment/brouwerijen.js');
-        return new Response('<pre>' . $res->getBody());
+        $res = $breweries->request(
+            'GET',
+            'https://static.lajos.nl/interview_assignment/brouwerijen.js',
+            [
+                'query' => [
+                    'userId' => 1
+                ]
+            ]
+        );
+        var_dump($res);
+//        echo $res->getStatusCode();
+        $body = $res->getBody();
+        $string = $body->getContents();
+
+//        return new Response('<pre>' . $res->getBody());
 
     }
 

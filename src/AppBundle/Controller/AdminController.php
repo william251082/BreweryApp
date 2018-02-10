@@ -9,8 +9,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppBundle;
 use AppBundle\Entity\Breweries;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,6 +21,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -54,12 +58,56 @@ class AdminController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//            $zipcode = $form->getData();
-//            var_dump($request);
-//            die('Form Submitted');
-            return $this->redirectToRoute('home');
+
+//            $em = $this
+//                ->getDoctrine()
+//                ->getManager();
+//
+//            $entities = $em
+//                ->getRepository('AppBundle:Breweries')
+//                ->findAll();
+//
+//            //access entities
+//            var_dump($entities);
+//
+//            //access a property
+//            $accessor = PropertyAccess::createPropertyAccessor();
+//            var_dump($accessor->getValue($entities, "[2]"));
+
+            // get input data
+            $input = $form->getData();
+            var_dump($input);
+            die('Form Submitted');
+
+//            return new Response(
+//                'zipcode'.$entities->getZipcode()
+//            );
         }
 
+//      if(){
+//            $em = $this
+//                ->getDoctrine()
+//                ->getManager();
+//
+//            $entities = $em
+//                ->getRepository('AppBundle:Breweries')
+//                ->findAll();
+//
+//            //access entities
+//            var_dump($entities);
+//
+//            //access a property
+//            $accessor = PropertyAccess::createPropertyAccessor();
+//            var_dump($accessor->getValue($entities, "[2]"));
+//
+//            return new Response(
+//                'zipcode'.$entities->getZipcode()
+//            );
+//      }
+
+
+//            $entities['debug']['entities'] = $entities;
+//        return $this->render('debug.html.twig', $entities);
 
         return $this->render('admin/index.html.twig',
             [
@@ -70,25 +118,54 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/zipcode", name="zipcode")
+     * @Route("/zipcode/{$id}", name="zipcode_show")
      *
      **/
-    public function zipcodeAction(Request $request, $breweries_id)
+    public function showZipcodeAction($id)
     {
-        $zipcode = $this->getDoctrine()
-            ->getRepository(Breweries::class)
-            ->find($breweries_id);
+        var_dump($id);
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
 
-        if (!$zipcode) {
+        $entities = $em
+            ->getRepository(Breweries::class)
+            ->find($id);
+
+
+        if (!$entities) {
             throw $this->createNotFoundException(
-                'No product found for id '.$breweries_id
+                'No breweries found for id'.$id
             );
         }
 
-        return new Response('Check out this great product: '.$zipcode->getName());
-
+        return new Response('Checkout this brewery: '.$entities->getZipcode());
 
 
     }
+
+
+//    /**
+//     * @Route("/zipcode", name="zipcode")
+//     *
+//     **/
+//    public function zipcodeAction(Request $request)
+//    {
+//        $zipcode = $this->getDoctrine()
+//            ->getRepository(Breweries::class)
+//            ->find($breweries_id);
+//
+//
+//        if (!$zipcode) {
+//            throw $this->createNotFoundException(
+//                'No product found for id '.$breweries_id
+//            );
+//        }
+//
+//        return new Response('Check out this great product: '.$zipcode->getName());
+//
+//
+//
+//    }
 
 }
