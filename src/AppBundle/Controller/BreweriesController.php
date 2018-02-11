@@ -39,7 +39,7 @@ class BreweriesController extends Controller
         $breweries = new \GuzzleHttp\Client();
         $res = $breweries->request(
             'GET',
-            'https://static.lajos.nl/interview_assignment/brouwerijen.js'
+            'https://api.postcode.nl/rest/postcode-ranges/postcode'
         );
 //        var_dump($res);
 //        echo $res->getStatusCode();

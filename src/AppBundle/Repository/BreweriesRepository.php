@@ -9,45 +9,28 @@ namespace AppBundle\Repository;
  * repository methods below.
  */
 
-use AppBundle\Entity\Breweries;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\Query;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class BreweriesRepository extends \Doctrine\ORM\EntityRepository
 {
-
-    public function findThreeNearestBreweries($input)
+    public function findThreeNearestBreweries()
     {
-        // automatically knows to select Breweries
-        // the "p" is an alias you'll use in the rest of the query
-        $qb = $this->createQueryBuilder('p')
-            ->andWhere('p.zipcode > :zipcode')
-//            ->setParameter('zipcode', $zipcode)
-            ->orderBy('p.zipcode', 'ASC')
-            ->getQuery();
-
-        return $qb->execute();
-
-        // to get just one result:
-        // $product = $qb->setMaxResults(1)->getOneOrNullResult();
+        $qb = $this->createQueryBuilder('b');
+        $qb->select('b');
+        $qb->from('AppBundle:Breweries','c');
+        $qb->where('b >= 1122');
+        $qb->setFirstResult(3);
+//        $qb->setParameter(0, '%');
+        return $qb->getQuery()->getResult();
     }
 
-    public function findOpenBrewery($input)
-    {
-        // automatically knows to select Breweries
-        // the "p" is an alias you'll use in the rest of the query
-        $qb = $this->createQueryBuilder('p')
-            ->andWhere()
-            ->orderBy('p.zipcode', 'ASC')
-            ->getQuery();
-
-        return $qb->execute();
-
-        // to get just one result:
-        // $product = $qb->setMaxResults(1)->getOneOrNullResult();
-    }
+//    public function findOpenBrewery($input)
+//    {
+//        $qb = $this->createQueryBuilder('c');
+//        $qb->select('DAYNAME(CURRENT_DATE)');
+////        $qb->join('c.make', 'make');
+////        $qb->join('c.model', 'model');
+//        return $qb->getQuery()->getResult();
+////    }
 
 
 }

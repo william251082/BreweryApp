@@ -23,7 +23,8 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "postcode-nl/api-restclient": "^1.1",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "doctrine/annotations": "^1.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
