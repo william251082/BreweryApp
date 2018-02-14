@@ -12,25 +12,16 @@ namespace AppBundle\Repository;
 
 class BreweriesRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findThreeNearestBreweries()
+    /**
+     * @return Genus[]
+     */
+    public function findAllOpenBreweriesToday()
     {
-        $qb = $this->createQueryBuilder('b');
-        $qb->select('b');
-        $qb->from('AppBundle:Breweries','c');
-        $qb->where('b >= 1122');
-        $qb->setFirstResult(3);
-//        $qb->setParameter(0, '%');
-        return $qb->getQuery()->getResult();
+        return $this->createQueryBuilder('breweries')
+            ->andWhere('breweries.isOpen = :isOpen')
+            ->setParameter('isOpen', true)
+            ->orderBy('breweries.zipcode', 'DESC')
+            ->getQuery()
+            ->execute();
     }
-
-//    public function findOpenBrewery($input)
-//    {
-//        $qb = $this->createQueryBuilder('c');
-//        $qb->select('DAYNAME(CURRENT_DATE)');
-////        $qb->join('c.make', 'make');
-////        $qb->join('c.model', 'model');
-//        return $qb->getQuery()->getResult();
-////    }
-
-
 }

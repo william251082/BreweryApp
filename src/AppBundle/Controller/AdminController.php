@@ -40,7 +40,8 @@ class AdminController extends Controller
      */
     public function formAction(Request $request)
     {
-        $form = $this->createFormBuilder()
+        $form = $this
+            ->createFormBuilder()
             ->setMethod('GET')
             ->add('zipcode', TextType::class,[
                 'required'    => true,
@@ -54,32 +55,45 @@ class AdminController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            // get input data
-            $input = $form->getData();
-
+        if($form->isSubmitted() && $form->isValid()) {
             $em = $this
                 ->getDoctrine()
                 ->getManager();
 
+//        dump($entities = $em
+//            ->getRepository('AppBundle:Breweries'));die;
+
             $entities = $em
                 ->getRepository('AppBundle:Breweries')
-                ->findAll();
+                ->findAllOpenBreweriesToday();
+//        dump($entities->findOneByZipcode('zipcode'));die;
 
-            var_dump($entities);
+            return $this->render('breweries/result.html.twig', [
+                'entities' => $entities
+            ]);
+        }
+//        }else
+//        {
+//            return $this->redirectToRoute('home',
+//                [
+//                    'entities' => $entities->createView()
+//                ]
+//            );
+//        }
 
-            //access entities
-            //var_dump($entities);
 
-            //access a property
-//            $accessor = PropertyAccess::createPropertyAccessor();
-//            var_dump($accessor->getValue($entities, "[0]", "['zipcode']"));
+//        dump($entities);die;
+//        $day = date("l");
 
-            // get input data
-            //$input = $form->getData();
-            var_dump($input);
-            die('Form Submitted');
+        // return all zipcodes
+//        $zipcodes = array_column($entities, 'zipcode');
+//        dump($zipcodes);die;
+//
+//            if ($entities->isOpen()){
+//                dump($entities);die;
+//            }
+//
+//        dump($entities);die;
 
 //            return $this->redirectToRoute('home',
 //                [
@@ -87,7 +101,7 @@ class AdminController extends Controller
 //                ]
 //            );
 
-        }
+
 //        else
 //        {
 //

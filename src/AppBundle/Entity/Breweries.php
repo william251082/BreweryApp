@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\BreweriesRepository")
  * @ORM\Table(name="breweries")
  */
 class Breweries
@@ -40,6 +40,11 @@ class Breweries
      * @ORM\Column(type="text")
      */
     private $zipcode;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isOpen;
 
 
     /**
@@ -175,6 +180,11 @@ class Breweries
     public function _toString()
     {
         return $this->getName();
+    }
+
+    public function setIsOpen($isOpen)
+    {
+        $this->isOpen = $isOpen;
     }
 
 }

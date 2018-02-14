@@ -26,27 +26,8 @@ class BreweriesController extends Controller
                     ->getRepository('AppBundle:Breweries')
                     ->findAll();
         $data['breweries'] = $breweries;
+        dump($breweries[0][open]);die;
          return $this->render("breweries/index.html.twig", $data);
-
-    }
-
-    /**
-     * @Route("/lajos")
-     *
-     **/
-    public function lajos()
-    {
-        $breweries = new \GuzzleHttp\Client();
-        $res = $breweries->request(
-            'GET',
-            'https://api.postcode.nl/rest/postcode-ranges/postcode'
-        );
-//        var_dump($res);
-//        echo $res->getStatusCode();
-//        $body = $res->getBody();
-//        $string = $body->getContents();
-
-        return new Response('<pre>' . $res->getBody());
 
     }
 
