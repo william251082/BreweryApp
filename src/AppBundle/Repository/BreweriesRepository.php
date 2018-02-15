@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Breweries;
+use \Doctrine\ORM\NoResultException;
 
 /**
  * BreweriesRepository
@@ -13,15 +15,44 @@ namespace AppBundle\Repository;
 class BreweriesRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
-     * @return Genus[]
+     *
+     * @return Breweries[]
      */
-    public function findAllOpenBreweriesToday()
+    public function findNearestBreweries()
     {
         return $this->createQueryBuilder('breweries')
-            ->andWhere('breweries.isOpen = :isOpen')
-            ->setParameter('isOpen', true)
+            ->andWhere('breweries.open = :open')
+            ->setParameter('open', true)
             ->orderBy('breweries.zipcode', 'DESC')
             ->getQuery()
             ->execute();
     }
+
+    public function findOpenBreweries()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $today = date("l");
+
+        $query = $em->createQuery("SELECT b
+        FROM AppBundle:Breweries b
+        WHERE b.open = '$today'
+        ");
+
+        $result = $query->getResult();
+
+
+        try {
+
+            return $result;
+
+        } catch (\Doctrine\ORM\NoResultException $e)
+        {
+
+            return null;
+
+        }
+    }
+
 }

@@ -22,11 +22,12 @@ class BreweriesController extends Controller
     public function showIndex()
     {
         $data = [];
-        $breweries = $this->getDoctrine()
+        $breweries = $this
+            ->getDoctrine()
                     ->getRepository('AppBundle:Breweries')
                     ->findAll();
         $data['breweries'] = $breweries;
-        dump($breweries[0][open]);die;
+//        dump($breweries);die;
          return $this->render("breweries/index.html.twig", $data);
 
     }

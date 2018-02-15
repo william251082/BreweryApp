@@ -24,27 +24,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
+
 class AdminController extends Controller
 {
     /**
      * @Route("/", name="home")
      */
-    public function indexAction()
-    {
-
-        return $this->render('admin/index.html.twig');
-    }
-
-    /**
-     * @Route("/", name="home")
-     */
-    public function formAction(Request $request)
+    public function OpenAction(Request $request)
     {
         $form = $this
             ->createFormBuilder()
             ->setMethod('GET')
-            ->add('zipcode', TextType::class,[
-                'required'    => true,
+            ->add('zipcode', TextType::class, [
+                'required' => true,
                 'constraints' => [
                     new NotBlank(),
                     new Length(['min' => 6]),
@@ -55,133 +47,25 @@ class AdminController extends Controller
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            $em = $this
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = [];
+            $breweries = $this
                 ->getDoctrine()
-                ->getManager();
-
-//        dump($entities = $em
-//            ->getRepository('AppBundle:Breweries'));die;
-
-            $entities = $em
                 ->getRepository('AppBundle:Breweries')
-                ->findAllOpenBreweriesToday();
-//        dump($entities->findOneByZipcode('zipcode'));die;
-
-            return $this->render('breweries/result.html.twig', [
-                'entities' => $entities
-            ]);
+                ->findOpenBreweries();
+            $data['breweries'] = $breweries;
+            
+            return $this->render("breweries/open.html.twig", $data);
         }
-//        }else
-//        {
-//            return $this->redirectToRoute('home',
-//                [
-//                    'entities' => $entities->createView()
-//                ]
-//            );
-//        }
+        else
+            {
+            return $this->render('admin/index.html.twig',
+                [
+                    'form' => $form->createView()
+                ]
+                );
+            }
 
-
-//        dump($entities);die;
-//        $day = date("l");
-
-        // return all zipcodes
-//        $zipcodes = array_column($entities, 'zipcode');
-//        dump($zipcodes);die;
-//
-//            if ($entities->isOpen()){
-//                dump($entities);die;
-//            }
-//
-//        dump($entities);die;
-
-//            return $this->redirectToRoute('home',
-//                [
-//                    'entities' => $entities->createView()
-//                ]
-//            );
-
-
-//        else
-//        {
-//
-//        return $this->render('admin/index.html.twig');
-//        }
-
-        return $this->render('admin/index.html.twig',
-            [
-                'form' => $form->createView()
-            ]
-        );
-    }
-
-//    /**
-//     * @Route("/closest", name="closest")
-//     *
-//     **/
-//    public function getClosest($input, $arr) {
-
-//       // Compare user input to zipcodes.
-//        $closest = null;
-//        foreach ($arr as $item) {
-//            if ($closest === null || abs($input - $closest) > abs($item - $input)) {
-//                $closest = $item;
-//            }
-//        }
-//        var_dump($closest);
-//        return $closest;
-//    }
-
-//    /**
-//     * @Route("/day", name="day")
-//     */
-    public function findOpenBrewery()
-    {
-        // getting open from database
-        $em = $this
-            ->getDoctrine()
-            ->getManager();
-
-        $entities = $em
-            ->getRepository('AppBundle:Breweries')
-            ->findAll();
-        var_dump($entities);
-
-        // Current Day
-         date_default_timezone_set('UTC');
-         $day = date("l");
-
-//        Compare current day to zipcode
-//        Return a boolean, open or close.
-
-         return $day;
-    }
-
-    /**
-     * @Route("/day", name="day")
-     */
-    public function showAction()
-    {
-        $zipcode = $this
-            ->getDoctrine()
-            ->getRepository('AppBundle:Breweries')
-            ->findAll();
-        var_dump($zipcode);
-
-    }
-
-    /**
-     * @Route("/index", name="index")
-     */
-    public function index(Request $request)
-    {
-        $page = $request
-            ->query
-            ->get('page', 1);
-        var_dump($page);
-        return new Response();
-
-
-        // ...
     }
 }

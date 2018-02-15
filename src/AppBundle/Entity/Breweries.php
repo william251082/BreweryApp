@@ -37,7 +37,8 @@ class Breweries
     private $open;
 
     /**
-     * @ORM\Column(type="text")
+     * @Assert\GreaterThanOrEqual($input)
+     * @ORM\Column(type="text" nullable=true)
      */
     private $zipcode;
 
