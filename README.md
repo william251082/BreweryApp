@@ -57,6 +57,10 @@ Then create an Apache virtual host. It should look like below:
 </VirtualHost>
 ```
 
+* Symfony 3.2.13
+* php7.2.1
+* mysql 5.6.38
+
 # DATA
 
 Open mysql:

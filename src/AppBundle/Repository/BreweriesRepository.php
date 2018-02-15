@@ -21,8 +21,8 @@ class BreweriesRepository extends \Doctrine\ORM\EntityRepository
     public function findNearestBreweries()
     {
         return $this->createQueryBuilder('breweries')
-            ->andWhere('breweries.open = :open')
-            ->setParameter('open', true)
+            ->andWhere('breweries.zipcode = :zipcode')
+            ->setParameter('zipcode', true)
             ->orderBy('breweries.zipcode', 'DESC')
             ->getQuery()
             ->execute();

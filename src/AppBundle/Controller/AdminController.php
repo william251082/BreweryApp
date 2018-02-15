@@ -52,10 +52,11 @@ class AdminController extends Controller
             $data = [];
             $breweries = $this
                 ->getDoctrine()
+                ->getManager()
                 ->getRepository('AppBundle:Breweries')
                 ->findOpenBreweries();
             $data['breweries'] = $breweries;
-            
+
             return $this->render("breweries/open.html.twig", $data);
         }
         else
